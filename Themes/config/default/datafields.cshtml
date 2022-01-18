@@ -1,0 +1,70 @@
+﻿@inherits NBrightBuy.render.NBrightBuyRazorTokens<NBrightDNN.NBrightRazor>
+@using System.Globalization
+@using System.Linq
+@using System.Web.UI.WebControls
+@using NBrightDNN
+
+@AddMetaData("resourcepath", "/DesktopModules/NBright/NBrightBuy/App_LocalResources/")
+@AddMetaData("resourcepath", "/DesktopModules/NBright/OS_PluginTemplate/App_LocalResources/")
+
+
+@{
+    // assign Model, so we can resolve var in VS
+    var info = (NBrightInfo)Model.List.First();
+}
+
+
+<input id="itemid" type="hidden" value="@info.ItemID"/>
+<input id="editlang" type="hidden" value="@info.Lang"/>
+
+<div class="col-xs-12 col-sm-12">
+    <div class="form-group depotdetail">
+        <div class="col-sm-12">
+            <div class="col-sm-6">
+                <label>@ResourceKey("Admin.test")</label>
+                @TextBox(info, "genxml/textbox/ref", "class='form-control'")
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="col-sm-6">
+                <label>@ResourceKey("Admin.test")</label>
+                @NBrightTextArea(info, "genxml/lang/genxml/textbox/ref2", "row='4' class='form-control'")
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="col-sm-6">
+                <label>@ResourceKey("Admin.test")</label>
+                @TextBox(info, "genxml/textbox/date", "class='form-control' datatype='date'")
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="col-sm-6">
+                <label>@ResourceKey("Admin.test")</label>
+                @RadioButtonList(info, "genxml/radiobuttonlist/testrbl", "1,2,3", "a,b,c", "")
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="col-sm-6">
+                <label>@ResourceKey("Admin.test")</label>
+                @DropDownList(info, "genxml/dropdownlist/testddl", "1,2,3", "a,b,c", "class='form-control'")
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="col-sm-6">
+                <label>@ResourceKey("Admin.test")</label>
+                @CheckBox(info, "genxml/checkbox/default", "", "")
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <div class="col-sm-5">
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <hr />
+                <div>Id: @info.ItemID  Guid: @info.GUIDKey</div>
+            </div>
+        </div>
+    </div>
+
+</div>
