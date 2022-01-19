@@ -50,9 +50,10 @@ namespace OpenStore.Providers.OS_GDPR
                 case "os_gdpr_savedata":
                     strOut = objCtrl.SavePluginSinglePageData(context);
                     break;
-                case "os_gdpr_selectlang":
+                case "os_gdpr_execute":
                     objCtrl.SavePluginSinglePageData(context);
-                    strOut = "";
+                    LocalUtils.ExecuteGDPR();
+                    strOut = LocalUtils.GetData(editlang, "datafields.cshtml");
                     break;
             }
 

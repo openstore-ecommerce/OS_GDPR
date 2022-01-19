@@ -12,12 +12,11 @@ namespace OS_GDPR.Componants
     {
         private int _portalId; 
         private List<UserInfo> _removeList;
-        UserLimpet(int portalId, int removeLimitDays)
+        public UserLimpet(int portalId, int removeLimitDays)
         {
             _portalId = portalId;
             RemoveLimitDays = removeLimitDays;
-
-
+            _removeList = new List<UserInfo>();
         }
         /// <summary>
         /// Do calculation on all users and add into removeList is over RemoveLimitDays since last login.
@@ -25,17 +24,26 @@ namespace OS_GDPR.Componants
         /// </summary>
         public void ProcessUsers()
         {
+            _removeList = new List<UserInfo>();
             var objCtrl = new NBrightBuyController();
-            var list = objCtrl.GetDnnUsers(_portalId, "",0, 0, 0, 0);
-            foreach (var u in list)
+            var listUsers = UserController.Instance.GetUsersBasicSearch(_portalId,-1,-1,"",true,"","");
+            foreach (var userInfo in listUsers)
             {
-                var userInfo = UserController.Instance.GetUser(_portalId, u.ItemID);
-                if (userInfo.Membership.LastLoginDate < DateTime.Now.AddDays(RemoveLimitDays * -1))
+                if (userInfo != null && userInfo.Membership.LastLoginDate < DateTime.Now.AddDays(RemoveLimitDays * -1))
                 {
-                    RemoveList.Add(userInfo);
+                    if (!userInfo.IsSuperUser && !userInfo.IsInRole("Administrators") && !userInfo.IsInRole("Manager"))
+                    {
+                        _removeList.Add(userInfo);
+                    }
                 }
             }
         }
+
+        public void DeleteUser(int portalId, int userId)
+        {
+
+        }
+
         public int RemoveLimitDays { get; set; }
         public List<UserInfo> RemoveList { get { return _removeList;} }
     }

@@ -39,7 +39,8 @@
   <PropertyGroup>
     <PostBuildEvent>REM : marco not working. 
 REM : Use OpenWith on .dnnpack file
-REM : or &lt;Shit + Ctrl + 1&gt; or &lt;Shit + Ctrl + 2&gt; or &lt;Shit + Ctrl + 3&gt;</PostBuildEvent>
+REM : or &lt;Shit + Ctrl + 1&gt; or &lt;Shit + Ctrl + 2&gt; or &lt;Shit + Ctrl + 3&gt;
+</PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotNetNuke, Version=7.2.0.607, Culture=neutral, processorArchitecture=MSIL">
@@ -54,12 +55,6 @@ REM : or &lt;Shit + Ctrl + 1&gt; or &lt;Shit + Ctrl + 2&gt; or &lt;Shit + Ctrl +
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data">
       <HintPath>..\NBrightBuy\_external\Microsoft.ApplicationBlocks.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="NBrightCore">
-      <HintPath>..\NBrightBuy\_external\NBrightCore.dll</HintPath>
-    </Reference>
-    <Reference Include="NBrightDNN">
-      <HintPath>..\NBrightBuy\_external\NBrightDNN.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -112,6 +107,7 @@ REM : or &lt;Shit + Ctrl + 1&gt; or &lt;Shit + Ctrl + 2&gt; or &lt;Shit + Ctrl +
   </ItemGroup>
   <ItemGroup>
     <None Include="DNNpackager.dnnpack" />
+    <None Include="LICENSE" />
     <None Include="OS_GDPR.dnn" />
     <None Include="README.md" />
     <None Include="Themes\config\default\admin_head.cshtml" />
@@ -131,6 +127,14 @@ REM : or &lt;Shit + Ctrl + 1&gt; or &lt;Shit + Ctrl + 2&gt; or &lt;Shit + Ctrl +
     <ProjectReference Include="..\NBrightBuy\NBrightBuy.csproj">
       <Project>{8f850303-bec5-4247-9126-1e58f1402205}</Project>
       <Name>NBrightBuy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NBrightData\NBrightCore\NBrightCore.csproj">
+      <Project>{7b338113-6a9a-484d-a6c6-4d63fd5e58c6}</Project>
+      <Name>NBrightCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NBrightData\NBrightDNN.csproj">
+      <Project>{ec815d38-62cf-4b46-8177-cf40ce1aab62}</Project>
+      <Name>NBrightDNN</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

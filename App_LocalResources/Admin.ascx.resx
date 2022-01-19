@@ -117,7 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="test.Text" xml:space="preserve">
-    <value>Test</value>
+  <data name="active.Text" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="autoremoveusers.Text" xml:space="preserve">
+    <value>Auto Remove Users</value>
+  </data>
+  <data name="debug.Text" xml:space="preserve">
+    <value>Debug</value>
+  </data>
+  <data name="execute.Text" xml:space="preserve">
+    <value>Execute</value>
+  </data>
+  <data name="executemsg.Text" xml:space="preserve">
+    <value>Execute ?  (Warning, this may take a long time)</value>
+  </data>
+  <data name="lastrun.Text" xml:space="preserve">
+    <value>Last Run</value>
+  </data>
+  <data name="removelimitdays.Text" xml:space="preserve">
+    <value>Remove Limit (In Days)</value>
   </data>
 </root>

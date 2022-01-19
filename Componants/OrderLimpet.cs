@@ -12,17 +12,17 @@ namespace OS_GDPR.Componants
     {
         private int _portalId; 
         private List<OrderData> _orderMaskList;
-        OrderLimpet(int portalId, int removeLimitDays)
+        public OrderLimpet(int portalId, int removeLimitDays)
         {
             _portalId = portalId;
             RemoveLimitDays = removeLimitDays;
-            var _orderMaskList = new List<OrderData>();
+            _orderMaskList = new List<OrderData>();
         }
         /// <summary>
         /// Do calculation on all Ordeer and add into removeList is over RemoveLimitDays since creation date.
         /// Has been designed to be used from the scheulder.
         /// </summary>
-        public void ProcessUsers()
+        public void ProcessOrders()
         {
             var _orderMaskList = new List<OrderData>();
             var objCtrl = new NBrightBuyController();

@@ -10,11 +10,11 @@ $(document).ready(function () {
         nbxget('os_gdpr_savedata', '#editdata');
     });
 
-    $('.actionbuttonwrapper #cmddelete').unbind('click');
-    $('.actionbuttonwrapper #cmddelete').click(function () {
-        if (confirm($('#deletemsg').val())) {
+    $('.actionbuttonwrapper #cmdexecute').unbind('click');
+    $('.actionbuttonwrapper #cmdexecute').click(function () {
+        if (confirm($('#executemsg').val())) {
             $('.processing').show();
-            nbxget('os_gdpr_deleterecord', '#editdata');
+            nbxget('os_gdpr_execute', '#editdata');
         }
     });
 

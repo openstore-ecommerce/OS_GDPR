@@ -2,6 +2,7 @@
 @using System.Globalization
 @using NBrightDNN
 @using NBrightCore.common
+@using DotNetNuke.Entities.Users;
 
 @AddMetaData("resourcepath", "/DesktopModules/NBright/NBrightBuy/App_LocalResources/")
 @AddMetaData("resourcepath", "/DesktopModules/NBright/OS_GDPR/App_LocalResources/")
@@ -18,7 +19,7 @@
     <input id="nextlang" type="hidden" value="@Model.Lang" />
     <input id="ajaxprovider" type="hidden" value="os_gdpr" />
 </div>
-<input id="deletemsg" type="hidden" value="@ResourceKey("Admin.deletemsg")"></input> <!-- used for prompt on delete -->
+<input id="executemsg" type="hidden" value="@ResourceKey("Admin.executemsg")"></input> <!-- used for prompt on delete -->
 <div id="nbsnotify"></div>
 <div id="loader" class="processing" style="display:none;">@ResourceKey("General.ProcessingDiv")</div>
 
@@ -30,7 +31,13 @@
         </a>
         <div class="actionbuttonwrapper">
             <button id="cmdsave" type="button" class="btn btn-primary">@ResourceKey("General.cmdSaveButton")</button>
-            <button id="cmddelete" type="button" class="btn btn-danger">@ResourceKey("General.cmdDeleteButton")</button>
+            @if (UserController.Instance.GetCurrentUserInfo().IsSuperUser)
+            {
+                <button id="cmdexecute" type="button" class="btn btn-success">
+                    <i title="Supprimer" class="fa fa-play fa-fw fa-lg"></i>
+                    <span class="sm-hidden">Execute</span>
+                </button>
+            }
         </div>
     </div>
     <div class="col-xs-3 col-sm-3 top-panel-right">
