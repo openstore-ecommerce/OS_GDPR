@@ -1,10 +1,12 @@
-﻿using DotNetNuke.Entities.Users;
+﻿using DotNetNuke.Data;
+using DotNetNuke.Entities.Users;
 using NBrightCore.common;
 using NBrightDNN;
 using Nevoweb.DNN.NBrightBuy.Components;
 using OS_GDPR.Componants;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
@@ -48,11 +50,17 @@ namespace OpenStore.Providers.OS_GDPR
             var autoremoveusers = info.GetXmlPropertyBool("genxml/checkbox/autoremoveusers");
             var active = info.GetXmlPropertyBool("genxml/checkbox/active");
             var removelimitdays = info.GetXmlPropertyInt("genxml/textbox/removelimitdays");
+            var email = info.GetXmlProperty("genxml/textbox/email"); // search for email, is a single user needs to be removed.
+            if (email != "")
+            {
+                removelimitdays = 0; // searching for single user, may not reach limit.
+                autoremoveusers = false;
+            }
 
             if (active)
             {
                 var userData = new UserLimpet(portalId, removelimitdays);
-                userData.ProcessUsers();
+                userData.ProcessUsers(email);
                 info.RemoveXmlNode("genxml/userlist");
                 info.SetXmlProperty("genxml/userlist", "");
                 foreach (var u in userData.RemoveList)
@@ -65,18 +73,96 @@ namespace OpenStore.Providers.OS_GDPR
                     sRec.SetXmlProperty("genxml/username", u.Username);
                     sRec.SetXmlProperty("genxml/email", u.Email);
                     sRec.SetXmlProperty("genxml/displayname", u.DisplayName);
+                    sRec.SetXmlProperty("genxml/lastlogindate", u.Membership.LastLoginDate.ToString("O"), TypeCode.DateTime);                    
+
                     info.AddXmlNode(sRec.XMLData, "genxml", "genxml/userlist");
-                    if (autoremoveusers) userData.DeleteUser(portalId, u.UserID);
+                    if (autoremoveusers) DeleteUser(portalId, u.UserID);
 
                 }
                 info.SetXmlProperty("genxml/textbox/lastrun", DateTime.Now.ToString("O"), TypeCode.DateTime);
+                info.SetXmlProperty("genxml/textbox/email", "");
                 objCtrl.Update(info);
 
-                var ordData = new OrderLimpet(portalId, removelimitdays);
-                ordData.ProcessOrders();
+                if (email == "") // if we are searching for user, do not process orders.
+                {
+                    var ordData = new OrderLimpet(portalId, removelimitdays);
+                    ordData.ProcessOrders();
+                }
             }
 
         }
+        public static void DeleteAll()
+        {
+            var portalId = DnnUtils.GetCurrentPortalSettings().PortalId;
+            var objCtrl = new NBrightBuyController();
+            var info = objCtrl.GetPluginSinglePageData("OS_GDPRDATA", "OS_GDPRDATA", "en-US");
+            var userNodList = info.XMLDoc.SelectNodes("genxml/userlist/*");
+            foreach(XmlNode nod in userNodList)
+            {
+                var sRec = new NBrightInfo();
+                sRec.XMLData = nod.OuterXml;
+                var userId = sRec.GetXmlPropertyInt("genxml/userid");
+                UserOrders(portalId, userId);
+                DeleteUser(portalId, userId);
+            }
+        }
+        public static void Delete(NBrightInfo ajaxInfo)
+        {
+            var userid = ajaxInfo.GetXmlPropertyInt("genxml/hidden/userid");
+            if (userid > 0)
+            {
+                DeleteUser(DnnUtils.GetCurrentPortalSettings().PortalId, userid);
+            }
+        }
+
+        public static void DeleteUser(int portalId, int userId)
+        {
+            var objCtrl = new NBrightBuyController();
+            var userInfo = UserController.Instance.GetUserById(portalId, userId);
+            if (userInfo != null)
+            {
+                UserController.DeleteUser(ref userInfo, false, false);
+                UserController.RemoveUser(userInfo);
+
+                // remove from data list
+                var info = objCtrl.GetPluginSinglePageData("OS_GDPRDATA", "OS_GDPRDATA", "en-US");
+                var userNodList = info.XMLDoc.SelectNodes("genxml/userlist/*");
+                var xmlList = new List<string>();
+                foreach (XmlNode nod in userNodList) // process before removal, I think it's a "race condition/ By Ref" with the remove.
+                {
+                    xmlList.Add(nod.OuterXml);
+                }
+                info.RemoveXmlNode("genxml/userlist");
+                info.SetXmlProperty("genxml/userlist", "");
+                foreach (var strXml in xmlList)
+                {
+                    var sRec = new NBrightInfo();
+                    sRec.XMLData = strXml;
+                    var uId = sRec.GetXmlPropertyInt("genxml/userid");
+                    if (uId != userId)
+                    {
+                        info.AddXmlNode(sRec.XMLData, "genxml", "genxml/userlist");
+                    }
+                }
+                objCtrl.Update(info);
+
+            }
+
+            objCtrl.ExecSql("delete from NBrightBuy where TypeCode = 'CLIENT' and userid = " + userId);
+
+        }
+        public static void UserOrders(int portalId, int userId)
+        {
+            var orderUsers = DataContext.Instance().ExecuteQuery<int>(CommandType.Text, "select itemid from NBrightBuy where TypeCode = 'ORDER' and userid = 4");
+            foreach (var o in orderUsers)
+            {
+                var ordData = new OrderLimpet(portalId, 0);
+                var orderData = new OrderData(portalId, o);
+                ordData.MaskOrder(orderData);
+            }
+        }
+
+
 
     }
-    }
+}

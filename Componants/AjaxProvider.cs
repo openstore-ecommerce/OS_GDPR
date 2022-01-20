@@ -53,7 +53,15 @@ namespace OpenStore.Providers.OS_GDPR
                 case "os_gdpr_execute":
                     objCtrl.SavePluginSinglePageData(context);
                     LocalUtils.ExecuteGDPR();
-                    strOut = LocalUtils.GetData(editlang, "datafields.cshtml");
+                    strOut = "OK";
+                    break;
+                case "os_gdpr_delete":
+                    LocalUtils.Delete(ajaxInfo);
+                    strOut = "OK";
+                    break;
+                case "os_gdpr_deleteall":
+                    LocalUtils.DeleteAll();
+                    strOut = "OK";
                     break;
             }
 

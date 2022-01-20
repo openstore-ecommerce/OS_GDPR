@@ -4,6 +4,7 @@
 @using System.Web.UI.WebControls
 @using NBrightDNN
 @using DotNetNuke.Entities.Users;
+@using System.Xml;
 
 @AddMetaData("resourcepath", "/DesktopModules/NBright/NBrightBuy/App_LocalResources/")
 @AddMetaData("resourcepath", "/DesktopModules/NBright/OS_GDPR/App_LocalResources/")
@@ -12,6 +13,7 @@
 @{
     // assign Model, so we can resolve var in VS
     var info = (NBrightInfo)Model.List.First();
+    var userNodList = info.XMLDoc.SelectNodes("genxml/userlist/*");
 }
 
 
@@ -34,12 +36,62 @@
                 @TextBox(info, "genxml/textbox/removelimitdays", "class='form-control'", "900")
             </div>
             <div class="col-sm-3">
+                <label>@ResourceKey("Admin.emailselect")</label>
+                @TextBox(info, "genxml/textbox/email", "class='form-control'", "")
+            </div>
+            <div class="col-sm-3">
                 <label>@ResourceKey("Admin.lastrun")</label>
                 @TextBox(info, "genxml/textbox/lastrun", " disabled class='form-control'", "")
             </div>
         </div>
 
+        <hr />
+
+        <div>
+            @if (userNodList.Count > 0)
+            {
+                <button id="cmddeleteall" type="button" class="btn btn-danger">
+                    <i title="Supprimer" class="fa fa-trash fa-fw fa-lg"></i>
+                    <span class="sm-hidden">@ResourceKey("Admin.deleteall")</span>
+                </button>
+            }
+        </div>
+
         <div id="userlist" class="col-sm-12">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">UserId</th>
+                        <th scope="col">@ResourceKey("Admin.name")</th>
+                        <th scope="col">@ResourceKey("Admin.email")</th>
+                        <th scope="col">@ResourceKey("Admin.lastlogin")</th>
+                        <th scope="col" style="width:64px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (XmlNode nod in userNodList)
+                    {
+                        var sRec = new NBrightInfo();
+                        sRec.XMLData = nod.OuterXml;
+                    <tr>
+                        <td>@sRec.GetXmlProperty("genxml/userid")</td>
+                        <td>@sRec.GetXmlProperty("genxml/displayname") &nbsp; @sRec.GetXmlProperty("genxml/username")</td>
+                        <td>@sRec.GetXmlProperty("genxml/email")</td>
+                        <td>@sRec.GetXmlProperty("genxml/lastlogindate")</td>
+                        <td>
+                            <button id="cmddelete" userid="@sRec.GetXmlProperty("genxml/userid")" type="button" class="btn btn-danger">
+                                <i title="@ResourceKey("Admin.delete")" class="fa fa-trash fa-fw fa-lg"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            Count: @userNodList.Count
         </div>
 
 
@@ -56,3 +108,23 @@
     </div>
 
 </div>
+
+<script>
+    $(document).ready(function () {
+
+        $('#cmddelete').unbind('click');
+        $('#cmddelete').click(function () {
+            $('.processing').show();
+            $('#userid').val($(this).attr("userid"));
+            nbxget('os_gdpr_delete', '#selectparams');
+        });
+
+        $('#cmddeleteall').unbind('click');
+        $('#cmddeleteall').click(function () {
+            $('.processing').show();
+            nbxget('os_gdpr_deleteall', '#selectparams');
+        });
+
+    });
+
+</script>

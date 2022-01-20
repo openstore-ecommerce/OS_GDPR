@@ -40,7 +40,7 @@ function nbxgetCompleted(e) {
         nbxget('os_gdpr_getdata', '#selectparams', '#editdata');// relist after delete
     }
 
-    if (e.cmd == 'os_gdpr_savedata') {
+    if (e.cmd == 'os_gdpr_savedata' || e.cmd == 'os_gdpr_execute' || e.cmd == 'os_gdpr_delete' || e.cmd == 'os_gdpr_deleteall') {
         $('#selecteditemid').val(''); // clear sleecteditemid.        
         nbxget('os_gdpr_getdata', '#selectparams', '#editdata');// relist after save
     }

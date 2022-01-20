@@ -4,7 +4,7 @@
   </hidden>
   <textbox>
     <ctrl update="save">os_gdpr</ctrl>
-    <name update="save">OS_GDPR</name>
+    <name update="save">GDPR</name>
     <icon update="save" />
     <group update="save">Admin</group>
     <path update="save">/DesktopModules/NBright/OS_GDPR/Admin.ascx</path>

@@ -18,6 +18,7 @@
     <input id="uilang" type="hidden" value="@Model.GetUrlParam("language")" />
     <input id="nextlang" type="hidden" value="@Model.Lang" />
     <input id="ajaxprovider" type="hidden" value="os_gdpr" />
+    <input id="userid" type="hidden" value="0" />
 </div>
 <input id="executemsg" type="hidden" value="@ResourceKey("Admin.executemsg")"></input> <!-- used for prompt on delete -->
 <div id="nbsnotify"></div>
@@ -31,13 +32,10 @@
         </a>
         <div class="actionbuttonwrapper">
             <button id="cmdsave" type="button" class="btn btn-primary">@ResourceKey("General.cmdSaveButton")</button>
-            @if (UserController.Instance.GetCurrentUserInfo().IsSuperUser)
-            {
-                <button id="cmdexecute" type="button" class="btn btn-success">
-                    <i title="Supprimer" class="fa fa-play fa-fw fa-lg"></i>
-                    <span class="sm-hidden">Execute</span>
-                </button>
-            }
+            <button id="cmdexecute" type="button" class="btn btn-success">
+                <i title="Supprimer" class="fa fa-play fa-fw fa-lg"></i>
+                <span class="sm-hidden">Execute</span>
+            </button>
         </div>
     </div>
     <div class="col-xs-3 col-sm-3 top-panel-right">
