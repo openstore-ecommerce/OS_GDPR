@@ -41,17 +41,17 @@ namespace OpenStore.Providers.OS_GDPR
             switch (paramCmd)
             {
                 case "os_gdpr_getdata":
-                    strOut = LocalUtils.GetData(editlang, "datafields.cshtml");
+                    strOut = LocalUtils.GetData("datafields.cshtml");
                     break;
                 case "os_gdpr_deleterecord":
-                    var infoDel = objCtrl.GetPluginSinglePageData("OS_GDPRDATA", "OS_GDPRDATA", Utils.GetCurrentCulture());
+                    var infoDel = objCtrl.GetPluginSinglePageData("OS_GDPRDATA", "OS_GDPRDATA", "en-US");
                     objCtrl.Delete(infoDel.ItemID);
                     break;
                 case "os_gdpr_savedata":
-                    strOut = objCtrl.SavePluginSinglePageData(context);
+                    strOut = LocalUtils.SaveData(ajaxInfo);
                     break;
                 case "os_gdpr_execute":
-                    objCtrl.SavePluginSinglePageData(context);
+                    LocalUtils.SaveData(ajaxInfo);
                     LocalUtils.ExecuteGDPR();
                     strOut = "OK";
                     break;

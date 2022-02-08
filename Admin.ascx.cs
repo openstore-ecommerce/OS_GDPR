@@ -81,7 +81,7 @@ namespace OpenStore.Providers.OS_GDPR
             if (NBrightBuyUtils.CheckRights())
             {
                 var lit = new Literal();
-                lit.Text = LocalUtils.GetData(Utils.GetCurrentCulture());
+                lit.Text = LocalUtils.GetData();
                 phData.Controls.Add(lit);
             }
 

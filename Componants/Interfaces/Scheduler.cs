@@ -12,7 +12,8 @@ namespace OpenStore.Providers.OS_GDPR
     {
         public override string DoWork(int portalId)
         {
-            throw new NotImplementedException();
+            LocalUtils.SchedulerActionGDPR(portalId);
+            return "GDPR Action";
         }
     }
 }

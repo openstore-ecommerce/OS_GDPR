@@ -112,6 +112,7 @@ REM : or &lt;Shit + Ctrl + 1&gt; or &lt;Shit + Ctrl + 2&gt; or &lt;Shit + Ctrl +
     <None Include="README.md" />
     <None Include="Themes\config\default\admin_head.cshtml" />
     <None Include="Themes\config\default\admin.cshtml" />
+    <Content Include="Docs\Intro.html" />
     <Content Include="Installation\pluginconfig.xml">
       <SubType>Designer</SubType>
     </Content>
