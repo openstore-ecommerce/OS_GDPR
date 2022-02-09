@@ -20,3 +20,7 @@ NOTE: The order is retained in the database for statistical and financial report
 
 ---
 *Licensed under: GNU GENERAL PUBLIC LICENSE v3.*
+
+![image](https://user-images.githubusercontent.com/5583141/153203792-c082b7ed-3bb9-4ee6-a4c7-f04585c00c42.png)
+
+Click on help to view documentation.
