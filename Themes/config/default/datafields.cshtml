@@ -43,6 +43,11 @@
                 <label>@ResourceKey("Admin.lastrun")</label>
                 @TextBox(info, "genxml/textbox/lastrun", " disabled class='form-control'", "")
             </div>
+            <div class="col-sm-1">
+                <a href="/desktopmodules/nbright/os_gdpr/docs/intro.html" target="_blank">
+                    <i class="fa far fa-question-circle"  style="font-size:32px;"></i>
+                </a>
+            </div>
         </div>
 
         <hr />
@@ -50,10 +55,10 @@
         <div>
             @if (userNodList.Count > 0)
             {
-                <button id="cmddeleteall" type="button" class="btn btn-danger">
-                    <i title="Supprimer" class="fa fa-trash fa-fw fa-lg"></i>
-                    <span class="sm-hidden">@ResourceKey("Admin.deleteall")</span>
-                </button>
+            <button id="cmddeleteall" type="button" class="btn btn-danger">
+                <i title="Supprimer" class="fa fa-trash fa-fw fa-lg"></i>
+                <span class="sm-hidden">@ResourceKey("Admin.deleteall")</span>
+            </button>
             }
         </div>
 

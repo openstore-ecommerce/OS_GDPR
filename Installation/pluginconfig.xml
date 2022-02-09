@@ -30,10 +30,10 @@
       <hidden />
       <textbox>
         <assembly>OS_GDPR</assembly>
-        <namespaceclass>OpenStore.Providers.OS_GDPR.Events</namespaceclass>
+        <namespaceclass>OpenStore.Providers.OS_GDPR.Scheduler</namespaceclass>
       </textbox>
       <checkbox>
-        <active>True</active>
+        <active>False</active>
         <default>False</default>
       </checkbox>
       <dropdownlist>

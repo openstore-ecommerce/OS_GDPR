@@ -142,6 +142,7 @@ namespace OpenStore.Providers.OS_GDPR
             var userid = ajaxInfo.GetXmlPropertyInt("genxml/hidden/userid");
             if (userid > 0)
             {
+                UserOrders(DnnUtils.GetCurrentPortalSettings().PortalId, userid);
                 DeleteUser(DnnUtils.GetCurrentPortalSettings().PortalId, userid);
             }
         }
@@ -156,7 +157,7 @@ namespace OpenStore.Providers.OS_GDPR
                 UserController.RemoveUser(userInfo);
 
                 // remove from data list
-                var info = objCtrl.GetPluginSinglePageData("OS_GDPRDATA", "OS_GDPRDATA", "en-US");
+                var info = objCtrl.GetByGuidKey(portalId, -1, "OS_GDPRDATA", "OS_GDPRDATA");
                 var userNodList = info.XMLDoc.SelectNodes("genxml/userlist/*");
                 var xmlList = new List<string>();
                 foreach (XmlNode nod in userNodList) // process before removal, I think it's a "race condition/ By Ref" with the remove.

@@ -19,11 +19,12 @@ namespace OS_GDPR.Componants
             _orderMaskList = new List<OrderData>();
         }
         /// <summary>
-        /// Do calculation on all Ordeer and add into removeList is over RemoveLimitDays since creation date.
+        /// Do calculation on all Ordeer and add into removeList if over RemoveLimitDays since creation date.
         /// Has been designed to be used from the scheulder.
         /// </summary>
         public void ProcessOrders()
         {
+            if (RemoveLimitDays > 90) RemoveLimitDays = 90;
             var _orderMaskList = new List<OrderData>();
             var objCtrl = new NBrightBuyController();
             var filter = " and [XMLData].value('(genxml/createddate)[1]','DateTime') < DATEADD(DAY, -" + RemoveLimitDays + " ,GetDate()) ";
@@ -37,7 +38,6 @@ namespace OS_GDPR.Componants
             {
                 MaskOrder(o);
             }
-
         }
         public void MaskOrder(OrderData o)
         {
