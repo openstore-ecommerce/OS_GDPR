@@ -14,122 +14,147 @@
     // assign Model, so we can resolve var in VS
     var info = (NBrightInfo)Model.List.First();
     var userNodList = info.XMLDoc.SelectNodes("genxml/userlist/*");
+    var disabledinput = "";
+    if (!DnnUtils.IsInRole("Administrator"))
+    {
+        disabledinput = " disabled ";
+    }
 }
 
 
-<input id="itemid" type="hidden" value="@info.ItemID" />
-<input id="editlang" type="hidden" value="@info.Lang" />
+    <input id="itemid" type="hidden" value="@info.ItemID" />
+    <input id="editlang" type="hidden" value="@info.Lang" />
 
-<div class="col-xs-12 col-sm-12">
-    <div class="form-group depotdetail">
+    <div class="col-xs-12 col-sm-12">
+        <div class="form-group depotdetail">
 
-        <div class="col-sm-12">
-            <div class="col-sm-2">
-                <label>@ResourceKey("Admin.active")</label>
-                @CheckBox(info, "genxml/checkbox/active", "", "", true)
-                <br />
-                <label>@ResourceKey("Admin.autoremoveusers")</label>
-                @CheckBox(info, "genxml/checkbox/autoremoveusers", "", "")
-            </div>
-            <div class="col-sm-3">
-                <label>@ResourceKey("Admin.removelimitdays")</label>
-                @TextBox(info, "genxml/textbox/removelimitdays", "class='form-control'", "900")
-            </div>
-            <div class="col-sm-3">
-                <label>@ResourceKey("Admin.emailselect")</label>
-                @TextBox(info, "genxml/textbox/email", "class='form-control'", "")
-            </div>
-            <div class="col-sm-3">
-                <label>@ResourceKey("Admin.lastrun")</label>
-                @TextBox(info, "genxml/textbox/lastrun", " disabled class='form-control'", "")
-            </div>
-            <div class="col-sm-1">
-                <a href="/desktopmodules/nbright/os_gdpr/docs/intro.html" target="_blank">
-                    <i class="fa far fa-question-circle"  style="font-size:32px;"></i>
-                </a>
-            </div>
-        </div>
-
-        <hr />
-
-        <div>
-            @if (userNodList.Count > 0)
-            {
-            <button id="cmddeleteall" type="button" class="btn btn-danger">
-                <i title="Supprimer" class="fa fa-trash fa-fw fa-lg"></i>
-                <span class="sm-hidden">@ResourceKey("Admin.deleteall")</span>
-            </button>
-            }
-        </div>
-
-        <div id="userlist" class="col-sm-12">
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">UserId</th>
-                        <th scope="col">@ResourceKey("Admin.name")</th>
-                        <th scope="col">@ResourceKey("Admin.email")</th>
-                        <th scope="col">@ResourceKey("Admin.lastlogin")</th>
-                        <th scope="col" style="width:64px;"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (XmlNode nod in userNodList)
-                    {
-                        var sRec = new NBrightInfo();
-                        sRec.XMLData = nod.OuterXml;
-                    <tr>
-                        <td>@sRec.GetXmlProperty("genxml/userid")</td>
-                        <td>@sRec.GetXmlProperty("genxml/displayname") &nbsp; @sRec.GetXmlProperty("genxml/username")</td>
-                        <td>@sRec.GetXmlProperty("genxml/email")</td>
-                        <td>@sRec.GetXmlProperty("genxml/lastlogindate")</td>
-                        <td>
-                            <button id="cmddelete" userid="@sRec.GetXmlProperty("genxml/userid")" type="button" class="btn btn-danger">
-                                <i title="@ResourceKey("Admin.delete")" class="fa fa-trash fa-fw fa-lg"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-
-        <div>
-            Count: @userNodList.Count
-        </div>
-
-
-        <div class="form-group">
             <div class="col-sm-12">
-                <div class="col-sm-5">
+                <div class="col-sm-2">
+                    <label>@ResourceKey("Admin.removelimitdays")</label>
+                    @TextBox(info, "genxml/textbox/removelimitdays", "class='form-control' " + disabledinput, "900")
+                </div>
+                <div class="col-sm-2">
+                    <label>@ResourceKey("Admin.orderlimitdays")</label>
+                    @TextBox(info, "genxml/textbox/orderlimitdays", "class='form-control' " + disabledinput, "900")
+                </div>
+                <div class="col-sm-2">
+                    <label>@ResourceKey("Admin.emailselect")</label>
+                    @TextBox(info, "genxml/textbox/email", "class='form-control'", "")
+                </div>
+                <div class="col-sm-2">
+                    <label>@ResourceKey("Admin.lastrun")</label>
+                    <div>
+                        @info.GetXmlProperty("genxml/textbox/lastrun")
+                    </div>
+                </div>
+                <div class="col-sm-4" style="text-align:right;">
+                    <a href="/desktopmodules/nbright/os_gdpr/docs/intro.html" target="_blank">
+                        <i class="fa far fa-question-circle" style="font-size:32px;"></i>
+                    </a>
                 </div>
             </div>
             <div class="col-sm-12">
-                <hr />
-                <div>Id: @info.ItemID  Guid: @info.GUIDKey</div>
+                <div class="col-sm-3">
+                    <br />
+                    <label>@ResourceKey("Admin.active")</label>
+                    @CheckBox(info, "genxml/checkbox/active", "", "", true)
+                </div>
+                <div class="col-sm-3">
+                    <br />
+                    <label>@ResourceKey("Admin.autoremoveusers")</label>
+                    @CheckBox(info, "genxml/checkbox/autoremoveusers", "", "")
+                </div>
+                <div class="col-sm-3">
+                    @if (DnnUtils.IsInRole("Administrator"))
+                    {
+                        <br />
+                        <label>DEBUG MODE</label>
+                        @CheckBox(info, "genxml/checkbox/debugmode", "", "")
+                    }
+                </div>
+            </div>
+
+
+            <hr />
+
+            <div>
+                @if (userNodList.Count > 0)
+                {
+                    <button id="cmddeleteall" type="button" class="btn btn-danger">
+                        <i title="Supprimer" class="fa fa-trash fa-fw fa-lg"></i>
+                        <span class="sm-hidden">@ResourceKey("Admin.deleteall")</span>
+                    </button>
+                }
+            </div>
+
+            <div id="userlist" class="col-sm-12">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">UserId</th>
+                            <th scope="col">@ResourceKey("Admin.name")</th>
+                            <th scope="col">@ResourceKey("Admin.email")</th>
+                            <th scope="col">@ResourceKey("Admin.lastlogin")</th>
+                            <th scope="col" style="width:64px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (XmlNode nod in userNodList)
+                        {
+                            var sRec = new NBrightInfo();
+                            sRec.XMLData = nod.OuterXml;
+                            <tr>
+                                <td>@sRec.GetXmlProperty("genxml/userid")</td>
+                                <td>@sRec.GetXmlProperty("genxml/displayname") &nbsp; @sRec.GetXmlProperty("genxml/username")</td>
+                                <td>@sRec.GetXmlProperty("genxml/email")</td>
+                                <td>@sRec.GetXmlProperty("genxml/lastlogindate")</td>
+                                <td>
+                                    <button id="cmddelete" userid="@sRec.GetXmlProperty("genxml/userid")" type="button" class="btn btn-danger">
+                                        <i title="@ResourceKey("Admin.delete")" class="fa fa-trash fa-fw fa-lg"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                Count: @userNodList.Count
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <div class="col-sm-5">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <hr />
+                    <div>Id: @info.ItemID  Guid: @info.GUIDKey</div>
+                </div>
             </div>
         </div>
+
     </div>
 
-</div>
+    <script>
+        $(document).ready(function () {
 
-<script>
-    $(document).ready(function () {
+            $('#cmddelete').unbind('click');
+            $('#cmddelete').click(function () {
+                $('.processing').show();
+                $('#userid').val($(this).attr("userid"));
+                nbxget('os_gdpr_delete', '#selectparams');
+            });
 
-        $('#cmddelete').unbind('click');
-        $('#cmddelete').click(function () {
-            $('.processing').show();
-            $('#userid').val($(this).attr("userid"));
-            nbxget('os_gdpr_delete', '#selectparams');
+            $('#cmddeleteall').unbind('click');
+            $('#cmddeleteall').click(function () {
+                $('.processing').show();
+                nbxget('os_gdpr_deleteall', '#selectparams');
+            });
+
         });
 
-        $('#cmddeleteall').unbind('click');
-        $('#cmddeleteall').click(function () {
-            $('.processing').show();
-            nbxget('os_gdpr_deleteall', '#selectparams');
-        });
-
-    });
-
-</script>
+    </script>

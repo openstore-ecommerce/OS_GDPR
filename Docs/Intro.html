@@ -33,6 +33,7 @@
         <div class="w3-row">
             <i>NOTES:</i><br />
             An option for automatic removal is available.<br />
+            If the user remove limit is < 60 days, the user remove limit will increased to 60 days.<br />
         </div>
     </div>
 
@@ -44,7 +45,25 @@
         <div class="w3-row">
             <i>NOTES:</i><br />
             The order is retained in the database for statistical and financial reports.<br />
-            If the remove limit is < 90 days, the remove limit will move to 90 days for removing personal data.  This is so no required data for order processing is removed.<br />
+            If the order remove limit is < 60 days, the order remove limit will increased to 60 days for removing personal data.  This is so no required data for order processing is removed by accident.<br />
+        </div>
+    </div>
+    <div class="w3-row w3-padding">
+        <h3>Orders without Client</h3>
+        <p>
+            Some installations of OpenStore do not have users.  In these cases personal data is still linked to the Order.  This plugin will mask any personal data of all orders after the retension time.<br />
+            If an Order needs to be removed becuase the client has demanded it to be removed, the manager can edit the order to remove the personal data.
+        </p>
+        <div class="w3-row">
+            <i>NOTES:</i><br />
+            Orders in OpenStore cannot be deleted by the UI, this is on purpose to ensure a history of orders is kept.  The orders can be deleted from the DB by the website master. <br>
+            <div class="w3-code">
+                select * from [NBrightBuy] where XMLData.value('(genxml/billaddress/genxml/textbox/email)[1]','nvarchar(max)') like '%xxxx%'<br />
+                <br />
+                begin tran<br />
+                delete [NBrightBuy] where itemid = 1234<br />
+                rollback / commit<br />
+            </div>
         </div>
     </div>
 
@@ -55,7 +74,7 @@
                 <img src="/desktopmodules/nbright/os_gdpr/docs/menu.png" style="width:50%;" />
             </div>
             <div class="w3-threequarter w3-padding">
-                <img src="/desktopmodules/nbright/os_gdpr/docs/ui.png"  style="width:100%;"/>
+                <img src="/desktopmodules/nbright/os_gdpr/docs/ui.png" style="width:100%;" />
                 <table class="w3-table w3-padding">
                     <tr>
                         <td>Save Button</td>
@@ -78,9 +97,13 @@
                         <td>The number of days to search for inactive client.  The selection is based on the last login date.  GDPR requires a maximum of 3 years inactivity to retain personal data.  But this should be checked based on your business operations.</td>
                     </tr>
                     <tr>
+                        <td>Order Limit (Days)</td>
+                        <td>The number of days to search for orders that need the details removed.  This setting will be ignored by orders that have an attached client.  This setting is normally used for e-commerce websites that do not have registered users or where users have been deleted not using the OS_GDPR plugin.  </td>
+                    </tr>
+                    <tr>
                         <td>Select User by Email</td>
                         <td>
-                            This option allows the manager to removed all personal data for a client, if they request it.  There is no time limit on this option.  If a client asked for removal of data, all data will be removed from what ever date.<br/>
+                            This option allows the manager to removed all personal data for a client, if they request it.  There is no time limit on this option.  If a client asked for removal of data, all data will be removed from what ever date.<br />
                             <b>NOTE: If an order is still being processed for a client, this option should NOT be used until the order has finished being processed.</b>
                         </td>
                     </tr>
@@ -99,6 +122,21 @@
                 </table>
             </div>
         </div>
+    </div>
+
+    <div class="w3-row w3-padding">
+        <h3>Debug Mode</h3>
+        <p>
+            Administrators can activate "DEBUG MODE".  While in debug mode no users or orders will be updated or deleted.<br />
+            A log file is created in the "/Portals/_default/OS_GDPRLogs" folder.
+        </p>
+    </div>
+
+    <div class="w3-row w3-padding">
+        <h3>Process Limit 500</h3>
+        <p>
+            The plugin will only process 500 users and order it 1 run.  This is to stop the process from crashing te system.  If more users or orders need to be removed, the process will need to be executed multiple time.
+        </p>
     </div>
 
     <div class="w3-row w3-padding">
@@ -130,6 +168,13 @@
             </div>
         </div>
 
+    </div>
+
+    <div class="w3-row w3-padding">
+        <h3>Administrator rights</h3>
+        <p>
+            Only the Administrator role can alter the retension limit for users and order.  They can also put the system into debug mode.
+        </p>
     </div>
 
 </body>

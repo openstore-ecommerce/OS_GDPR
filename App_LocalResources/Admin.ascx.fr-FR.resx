@@ -118,45 +118,45 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="active.Text" xml:space="preserve">
-    <value>Active</value>
+    <value>Actif</value>
   </data>
   <data name="autoremoveusers.Text" xml:space="preserve">
-    <value>Auto Remove Users</value>
+    <value>Suppression automatique</value>
   </data>
   <data name="debug.Text" xml:space="preserve">
-    <value>Debug</value>
+    <value>Déboguer</value>
   </data>
   <data name="delete.Text" xml:space="preserve">
-    <value>Delete</value>
+    <value>Supprimer</value>
   </data>
   <data name="deleteall.Text" xml:space="preserve">
-    <value>Delete All</value>
+    <value>Supprimer tout</value>
   </data>
   <data name="email.Text" xml:space="preserve">
     <value>Email</value>
   </data>
   <data name="emailselect.Text" xml:space="preserve">
-    <value>Select User By Email</value>
+    <value>Sélectionner par e-mail</value>
   </data>
   <data name="execute.Text" xml:space="preserve">
-    <value>Execute</value>
+    <value>Exécuter</value>
   </data>
   <data name="executemsg.Text" xml:space="preserve">
-    <value>Execute ?  (Warning, this may take a long time)</value>
+    <value>Exécuter?  (Attention, cela peut prendre beaucoup de temps)</value>
   </data>
   <data name="lastlogin.Text" xml:space="preserve">
-    <value>Last Login</value>
+    <value>Dernière connexion</value>
   </data>
   <data name="lastrun.Text" xml:space="preserve">
-    <value>Last Run</value>
+    <value>Dernière exécution</value>
   </data>
   <data name="name.Text" xml:space="preserve">
-    <value>Name</value>
+    <value>Nom</value>
   </data>
   <data name="orderlimitdays.Text" xml:space="preserve">
-    <value>Order Limit (Days)</value>
+    <value>Limite de commande (jours)</value>
   </data>
   <data name="removelimitdays.Text" xml:space="preserve">
-    <value>Remove Limit (Days)</value>
+    <value>Limite (jours)</value>
   </data>
 </root>
