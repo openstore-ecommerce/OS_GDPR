@@ -177,13 +177,12 @@ namespace OpenStore.Providers.OS_GDPR
                             LogSystem("OS_GDPR - Order List: " + list.Count);
                             foreach (var info2 in list)
                             {
-                                // We only want to mask clients without a user.
+                                // We only want to mask clients without a user.  User Orders will be masked when the user is deleted.
                                 var orderData = new OrderData(portalId, info2.ItemID);
                                 var userInfo = UserController.Instance.GetUserById(portalId, orderData.UserId);
                                 if (userInfo == null)
                                 {
-                                    objCtrl.ExecSql("delete from NBrightBuy where TypeCode = 'CLIENT' and userid = " + orderData.UserId);
-                                    objCtrl.ExecSql("delete from NBrightBuy where TypeCode = 'USERDATA' and userid = " + orderData.UserId);
+                                    DeleteDataRecords(orderData.UserId);
                                     _orderMaskList.Add(orderData);
                                 }
                             }
@@ -198,6 +197,11 @@ namespace OpenStore.Providers.OS_GDPR
                     LogSystem("OS_GDPR --------------- END ---------------");
                 }
             }
+        }
+        private static void DeleteDataRecords(int userid)
+        {
+            DataContext.Instance().ExecuteQuery<int>(CommandType.Text, "delete from {databaseOwner}[{objectQualifier}NBrightBuy] where TypeCode = 'CLIENT' and userid = " + userid);
+            DataContext.Instance().ExecuteQuery<int>(CommandType.Text, "delete from {databaseOwner}[{objectQualifier}NBrightBuy] where TypeCode = 'USERDATA' and userid = " + userid);
         }
         public static void DeleteAll()
         {
@@ -262,8 +266,8 @@ namespace OpenStore.Providers.OS_GDPR
                     }
                     objCtrl.Update(info);
 
-                    objCtrl.ExecSql("delete from NBrightBuy where TypeCode = 'CLIENT' and userid = " + userId);
-                    objCtrl.ExecSql("delete from NBrightBuy where TypeCode = 'USERDATA' and userid = " + userId);
+                    DeleteDataRecords(userId);
+
                 }
                 UserOrders(portalId, userId, debugmode);
             }
@@ -271,7 +275,7 @@ namespace OpenStore.Providers.OS_GDPR
         public static void UserOrders(int portalId, int userId, bool debugmode)
         {
             LogSystem("OS_GDPR - Mask Orders UserId: " + userId);
-            var orderUsers = DataContext.Instance().ExecuteQuery<int>(CommandType.Text, "select itemid from NBrightBuy where TypeCode = 'ORDER' and userid = " + userId + " ");
+            var orderUsers = DataContext.Instance().ExecuteQuery<int>(CommandType.Text, "select itemid from {databaseOwner}[{objectQualifier}NBrightBuy] where TypeCode = 'ORDER' and userid = " + userId + " ");
             LogSystem("OS_GDPR - Mask Orders Count: " + orderUsers.Count());
             foreach (var o in orderUsers)
             {

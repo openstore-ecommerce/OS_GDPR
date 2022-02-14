@@ -19,7 +19,7 @@ This plugin is designed to make OpenStore comply with European GDPR rules. Europ
 Any users which have not be active for a selected amount of time (900 days default) will be listed for removal. The manager will then be able to decide to remove all users or selected users from the system.  
 
 NOTES:  
-An option for automatic removal is available.
+An option for automatic removal is available.  
 If the user remove limit is < 60 days, the user remove limit will increased to 60 days.  
 
 ### Orders
@@ -110,6 +110,7 @@ The OpenStore DNN scheduler can be setup to automaticaly run the expired user se
 [Scheduler Setup](https://doc.openstore-ecommerce.com/#11498)  
 The scheduler will run the selected between 02:00 and 03:00 to minimise affects to the website.  If the auto removal option has been selected the scheduler must be setup for the clients to be removed.  
 
+##### IMPORTANT: The OpenStore DNN scheduler MUST be active to process this data automatically.
 
 Namespace: OpenStore.Providers.OS_GDPR.Scheduler  
 Assembly: OS_GDPR
@@ -123,3 +124,18 @@ Admin > Extensions
 
 Only the Administrator role can alter the retension limit for users and order. They can also put the system into debug mode.  
 Administrators can also change the last run date.
+
+### Methods of Execution
+
+#### Fully Automatic
+
+If the "Auto remove Users Checkbox" option is checked and the sceduler setup, the process will run every night and automatically remove users/orders that of over the retension time.  No need for human interaction to keep the system compliant to European GDPR.
+
+#### Semi-Automatic
+
+The Scheduler is setup and creates a list of users that should be removed.  Maual interaction via the UI list is required to remove the user.
+
+#### Manual
+
+A list of users that need to be removed is created when the "Execute Button" is clicked in the UI.  After that users can be removed via the UI.
+
