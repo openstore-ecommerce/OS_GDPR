@@ -46,6 +46,15 @@ namespace OpenStore.Providers.OS_GDPR
                 info.SetXmlProperty("genxml/checkbox/active", ajaxInfo.GetXmlProperty("genxml/checkbox/active"));
                 info.SetXmlProperty("genxml/checkbox/autoremoveusers", ajaxInfo.GetXmlProperty("genxml/checkbox/autoremoveusers"));
                 info.SetXmlProperty("genxml/checkbox/debugmode", ajaxInfo.GetXmlProperty("genxml/checkbox/debugmode"));
+                var editlang = ajaxInfo.GetXmlProperty("genxml/hidden/editlang");
+                var lastrun = ajaxInfo.GetXmlProperty("genxml/textbox/lastrun");
+                if (Utils.IsDate(lastrun, editlang))
+                {
+                    var cultureInfo = new CultureInfo(editlang, true);
+                    var lastrundate = Convert.ToDateTime(lastrun, cultureInfo);
+                    lastrundate = lastrundate.Date.AddMinutes(130); // Make it 2:10 in the morning so scheudler runs if testing.
+                    info.SetXmlProperty("genxml/textbox/lastrun", lastrundate.ToString("O"), TypeCode.DateTime);
+                }
             }
             objCtrl.Update(info);
             DataCache.ClearCache();
@@ -76,19 +85,28 @@ namespace OpenStore.Providers.OS_GDPR
         }
         public static void SchedulerActionGDPR(int portalId)
         {
+            LogSystem("OS_GDPR - Scheduler: " + DateTime.Now.ToString());
             var objCtrl = new NBrightBuyController();
             var info = objCtrl.GetByGuidKey(portalId, -1, "OS_GDPRDATA", "OS_GDPRDATA");
             var strlastrun = info.GetXmlProperty("genxml/textbox/lastrun");
-            if (Utils.IsDate(strlastrun,"en-US"))
+            var debugmode = info.GetXmlPropertyBool("genxml/checkbox/debugmode");
+            if (Utils.IsDate(strlastrun))
             {
                 var lastrun = Convert.ToDateTime(strlastrun);
                 // run between 2am - 3am, once a day.
                 if ((lastrun < DateTime.Now.Date && DateTime.Now > DateTime.Now.Date.AddHours(2)))
                 {
                     LogSystem("OS_GDPR --------------- START Scheduler ---------------");
-                    LogSystem("OS_GDPR - Scheduler: " + DateTime.Now.ToString());
                     ActionGDPR(portalId);
                 }
+                else
+                {
+                    LogSystem("OS_GDPR - Scheduler: Invalid Date Time (2am - 3am required)");
+                }
+            }
+            else
+            {
+                LogSystem("OS_GDPR - Scheduler: Invalid Last Run Date.");
             }
         }
 

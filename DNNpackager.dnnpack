@@ -25,5 +25,6 @@
   </file>
 	<assembly>
 		<value>\bin\OS_GDPR.dll</value>
+    <value>\bin\OS_GDPR.pdb</value>
   </assembly>  
 </root>

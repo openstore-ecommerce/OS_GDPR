@@ -5,6 +5,7 @@
 @using NBrightDNN
 @using DotNetNuke.Entities.Users;
 @using System.Xml;
+@using NBrightCore.common;
 
 @AddMetaData("resourcepath", "/DesktopModules/NBright/NBrightBuy/App_LocalResources/")
 @AddMetaData("resourcepath", "/DesktopModules/NBright/OS_GDPR/App_LocalResources/")
@@ -23,7 +24,7 @@
 
 
     <input id="itemid" type="hidden" value="@info.ItemID" />
-    <input id="editlang" type="hidden" value="@info.Lang" />
+    <input id="editlang" type="hidden" value="@Utils.GetCurrentCulture()" />
 
     <div class="col-xs-12 col-sm-12">
         <div class="form-group depotdetail">
@@ -64,12 +65,13 @@
                     <label>@ResourceKey("Admin.autoremoveusers")</label>
                     @CheckBox(info, "genxml/checkbox/autoremoveusers", "", "")
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-6">
                     @if (DnnUtils.IsInRole("Administrator"))
                     {
                         <br />
                         <label>DEBUG MODE</label>
-                        @CheckBox(info, "genxml/checkbox/debugmode", "", "")
+                        @CheckBox(info, "genxml/checkbox/debugmode", "", "") 
+                        <b>&nbsp;IMPORTANT: Turn off for live site.</b>
                     }
                 </div>
             </div>

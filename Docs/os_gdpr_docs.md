@@ -139,3 +139,7 @@ The Scheduler is setup and creates a list of users that should be removed.  Manu
 
 A list of users that need to be removed is created when the "Execute Button" is clicked in the UI.  After that users can be removed via the UI.
 
+#### Remove Single User
+If a client demands to be removed, the UI allows you to search for a user, but email or partial email.  
+Clicking the "Execute" button will activate the search and add the user to the UI list, it can then be manualy removed. (If the user exists in the system)
+
