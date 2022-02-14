@@ -110,7 +110,7 @@
                                 <td>@sRec.GetXmlProperty("genxml/email")</td>
                                 <td>@sRec.GetXmlProperty("genxml/lastlogindate")</td>
                                 <td>
-                                    <button id="cmddelete" userid="@sRec.GetXmlProperty("genxml/userid")" type="button" class="btn btn-danger">
+                                    <button userid="@sRec.GetXmlProperty("genxml/userid")" type="button" class="btn btn-danger cmddelete">
                                         <i title="@ResourceKey("Admin.delete")" class="fa fa-trash fa-fw fa-lg"></i>
                                     </button>
                                 </td>
@@ -142,8 +142,8 @@
     <script>
         $(document).ready(function () {
 
-            $('#cmddelete').unbind('click');
-            $('#cmddelete').click(function () {
+            $('.cmddelete').unbind('click');
+            $('.cmddelete').click(function () {
                 $('.processing').show();
                 $('#userid').val($(this).attr("userid"));
                 nbxget('os_gdpr_delete', '#selectparams');
