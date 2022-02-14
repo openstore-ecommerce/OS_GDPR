@@ -2,7 +2,7 @@
 	<packages>
 		<package name="OS_GDPR" type="Module" version="1.0.0">
 			<friendlyName>OS_GDPR</friendlyName>
-			<description>OS_GDPR: Depot Admin for NBS</description>
+			<description>OS_GDPR</description>
 			<iconFile />
 			<owner>
 				<name>David Lee</name>
