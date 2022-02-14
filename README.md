@@ -15,6 +15,11 @@ ALL NECESSARY SERVICING, REPAIR OR CORRECTION.**
 ---
 *Licensed under: GNU GENERAL PUBLIC LICENSE v3.*
 
+[Documentation](https://github.com/openstore-ecommerce/OS_GDPR/blob/main/Docs/os_gdpr_docs.md)  
+
+In the UI click on help to view documentation.
+
 ![image](https://user-images.githubusercontent.com/5583141/153203792-c082b7ed-3bb9-4ee6-a4c7-f04585c00c42.png)
 
-Click on help to view documentation.
+
+

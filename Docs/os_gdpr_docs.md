@@ -102,7 +102,7 @@ A log file is created in the "/Portals/_default/OS_GDPRLogs" folder.
 
 ### Process Limit 500
 
-The plugin will only process 500 users and order it 1 run. This is to stop the process from crashing te system. If more users or orders need to be removed, the process will need to be executed multiple time.  
+The plugin will only process 500 users and orders in 1 run. This is to stop the process from crashing te system. If more users or orders need to be removed, the process will need to be executed multiple time.  
 
 ### Scheduler
 
@@ -133,7 +133,7 @@ If the "Auto remove Users Checkbox" option is checked and the sceduler setup, th
 
 #### Semi-Automatic
 
-The Scheduler is setup and creates a list of users that should be removed.  Maual interaction via the UI list is required to remove the user.
+The Scheduler is setup and creates a list of users that should be removed.  Manual interaction via the UI list is required to remove the user.
 
 #### Manual
 
