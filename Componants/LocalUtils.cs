@@ -197,6 +197,8 @@ namespace OpenStore.Providers.OS_GDPR
                     LogSystem("OS_GDPR --------------- END ---------------");
                 }
             }
+
+            LogSystemClear(30);
         }
         private static void DeleteDataRecords(int userid)
         {
@@ -237,7 +239,7 @@ namespace OpenStore.Providers.OS_GDPR
             var userInfo = UserController.Instance.GetUserById(portalId, userId);
             if (userInfo != null)
             {
-                LogSystem("OS_GDPR - Delete User: " + userInfo.Email);
+                LogSystem("OS_GDPR - Delete User: " + userInfo.UserID);
                 if (!debugmode)
                 {
 
@@ -326,6 +328,16 @@ namespace OpenStore.Providers.OS_GDPR
             var mappath = HostingEnvironment.MapPath("/Portals/_default/OS_GDPRLogs");
             if (!Directory.Exists(mappath)) Directory.CreateDirectory(mappath);
             AppendToLog(mappath, "system", message);
+        }
+        public static void LogSystemClear(int daysToKeep)
+        {
+            var mappath = HostingEnvironment.MapPath("/Portals/_default/OS_GDPRLogs");
+            if (!Directory.Exists(mappath)) Directory.CreateDirectory(mappath);
+            DirectoryInfo di = new DirectoryInfo(mappath);
+            foreach (FileInfo file in di.GetFiles())
+            {
+                if (file.CreationTime < DateTime.Now.AddDays(daysToKeep * -1)) file.Delete();
+            }
         }
         private static void AppendToLog(string logMapPathFolder, string logName, string logMessage)
         {
