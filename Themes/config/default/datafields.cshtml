@@ -44,11 +44,11 @@
                 <div class="col-sm-2">
                     <label>@ResourceKey("Admin.lastrun")</label>
                     <div>
-                        @info.GetXmlProperty("genxml/textbox/lastrun")
+                        @TextBox(info, "genxml/textbox/lastrun", "class='form-control' " + disabledinput, "")
                     </div>
                 </div>
                 <div class="col-sm-4" style="text-align:right;">
-                    <a href="/desktopmodules/nbright/os_gdpr/docs/intro.html" target="_blank">
+                    <a href="https://github.com/openstore-ecommerce/OS_GDPR/tree/main/Docs/os_gdpr_docs.md" target="_blank">
                         <i class="fa far fa-question-circle" style="font-size:32px;"></i>
                     </a>
                 </div>

@@ -106,13 +106,16 @@ REM : or &lt;Shit + Ctrl + 1&gt; or &lt;Shit + Ctrl + 2&gt; or &lt;Shit + Ctrl +
   </ItemGroup>
   <ItemGroup>
     <None Include="DNNpackager.dnnpack" />
+    <None Include="Docs\os_gdpr_docs.md" />
     <None Include="LICENSE" />
     <None Include="OS_GDPR.dnn" />
     <None Include="README.md" />
     <None Include="Themes\config\default\admin_head.cshtml" />
     <None Include="Themes\config\default\admin.cshtml" />
-    <Content Include="Docs\Intro.html" />
     <Content Include="Docs\menu.png" />
+    <Content Include="Docs\pluginlist.png" />
+    <Content Include="Docs\SchedulerOff.png" />
+    <Content Include="Docs\ui.png" />
     <Content Include="Installation\pluginconfig.xml">
       <SubType>Designer</SubType>
     </Content>
