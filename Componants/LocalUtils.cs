@@ -88,25 +88,32 @@ namespace OpenStore.Providers.OS_GDPR
             LogSystem("OS_GDPR - Scheduler: " + DateTime.Now.ToString());
             var objCtrl = new NBrightBuyController();
             var info = objCtrl.GetByGuidKey(portalId, -1, "OS_GDPRDATA", "OS_GDPRDATA");
-            var strlastrun = info.GetXmlProperty("genxml/textbox/lastrun");
-            var debugmode = info.GetXmlPropertyBool("genxml/checkbox/debugmode");
-            if (Utils.IsDate(strlastrun))
+            if (info != null)
             {
-                var lastrun = Convert.ToDateTime(strlastrun);
-                // run between 2am - 3am, once a day.
-                if ((lastrun < DateTime.Now.Date && DateTime.Now > DateTime.Now.Date.AddHours(2)))
+                var strlastrun = info.GetXmlProperty("genxml/textbox/lastrun");
+                var debugmode = info.GetXmlPropertyBool("genxml/checkbox/debugmode");
+                if (Utils.IsDate(strlastrun))
                 {
-                    LogSystem("OS_GDPR --------------- START Scheduler ---------------");
-                    ActionGDPR(portalId);
+                    var lastrun = Convert.ToDateTime(strlastrun);
+                    // run between 2am - 3am, once a day.
+                    if ((lastrun < DateTime.Now.Date && DateTime.Now > DateTime.Now.Date.AddHours(2)))
+                    {
+                        LogSystem("OS_GDPR --------------- START Scheduler ---------------");
+                        ActionGDPR(portalId);
+                    }
+                    else
+                    {
+                        LogSystem("OS_GDPR - Scheduler: Invalid Date Time (2am - 3am required)");
+                    }
                 }
                 else
                 {
-                    LogSystem("OS_GDPR - Scheduler: Invalid Date Time (2am - 3am required)");
+                    LogSystem("OS_GDPR - Scheduler: Invalid Last Run Date.");
                 }
             }
             else
             {
-                LogSystem("OS_GDPR - Scheduler: Invalid Last Run Date.");
+                LogSystem("OS_GDPR - NO DATA SETTINGS");
             }
         }
 

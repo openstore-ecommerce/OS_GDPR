@@ -18,7 +18,7 @@
   <checkboxlist>
     <securityroles update="save">
       <chk value="True" data="Administrators">Administrators</chk>
-      <chk value="False" data="Manager">Manager</chk>
+      <chk value="True" data="Manager">Manager</chk>
       <chk value="False" data="Editor">Editor</chk>
       <chk value="False" data="ClientEditor">ClientEditor</chk>
     </securityroles>
@@ -33,7 +33,7 @@
         <namespaceclass>OpenStore.Providers.OS_GDPR.Scheduler</namespaceclass>
       </textbox>
       <checkbox>
-        <active>False</active>
+        <active>True</active>
         <default>False</default>
       </checkbox>
       <dropdownlist>
