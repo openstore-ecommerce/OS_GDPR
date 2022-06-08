@@ -207,7 +207,7 @@ namespace OpenStore.Providers.OS_GDPR
                                 var userInfo = UserController.Instance.GetUserById(portalId, orderData.UserId);
                                 if (userInfo == null)
                                 {
-                                    DeleteDataRecords(orderData.UserId);
+                                    if (orderData.UserId > 0) DeleteDataRecords(orderData.UserId);
                                     _orderMaskList.Add(orderData);
                                 }
                             }
@@ -227,8 +227,20 @@ namespace OpenStore.Providers.OS_GDPR
         }
         private static void DeleteDataRecords(int userid)
         {
-            DataContext.Instance().ExecuteQuery<int>(CommandType.Text, "delete from {databaseOwner}[{objectQualifier}NBrightBuy] where TypeCode = 'CLIENT' and userid = " + userid);
-            DataContext.Instance().ExecuteQuery<int>(CommandType.Text, "delete from {databaseOwner}[{objectQualifier}NBrightBuy] where TypeCode = 'USERDATA' and userid = " + userid);
+            var objCtrl = new NBrightBuyController();
+
+            var cmdStr = "select ItemId from {databaseOwner}[{objectQualifier}NBrightBuy] where TypeCode = 'CLIENT' and userid = " + userid.ToString() + " ";
+            var list1 = DataContext.Instance().ExecuteQuery<int>(CommandType.Text, cmdStr);
+            foreach (var itemId in list1)
+            {
+                objCtrl.Delete(itemId);
+            }
+            var cmdStr2 = "select ItemId from {databaseOwner}[{objectQualifier}NBrightBuy] where TypeCode = 'USERDATA' and userid = " + userid.ToString() + " ";
+            var list2 = DataContext.Instance().ExecuteQuery<int>(CommandType.Text, cmdStr2);
+            foreach (var itemId in list2)
+            {
+                objCtrl.Delete(itemId);
+            }
         }
         public static void DeleteAll()
         {
