@@ -241,6 +241,12 @@ namespace OpenStore.Providers.OS_GDPR
             {
                 objCtrl.Delete(itemId);
             }
+
+
+            // This MIGHT be a better solution. (Using "DataContext.Instance().Execute") 
+            //DataContext.Instance().Execute(CommandType.Text, "delete from {databaseOwner}[{objectQualifier}NBrightBuy] where TypeCode = 'CLIENT' and userid = " + userid);
+            //DataContext.Instance().Execute(CommandType.Text, "delete from {databaseOwner}[{objectQualifier}NBrightBuy] where TypeCode = 'USERDATA' and userid = " + userid);
+
         }
         public static void DeleteAll()
         {
